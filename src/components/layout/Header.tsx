@@ -117,6 +117,24 @@ export function Header() {
         Pular para o conteúdo
       </a>
 
+      {/*
+        Safari iOS: a página continua sendo desenhada atrás da barra de status, acima do top:0 do header
+        fixo. Como o fundo do header é translúcido, com blur e numa camada filha, o Safari não consegue usá-lo
+        para pintar essa área, e as seções apareciam acima do header. Esta faixa opaca, só decorativa e sem
+        receber cliques, fica logo acima do header e cobre a região. Em navegadores que não desenham nada ali,
+        ela fica fora da tela e não tem efeito.
+      */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-full -z-10 h-[50vh] bg-cacau-950" />
+      {/* Com safe-area-inset-top > 0 (paisagem / app instalado), a faixa da barra de status também fica opaca */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 -z-10 bg-cacau-950 transition-opacity duration-700 ease-expo",
+          solid ? "opacity-100" : "opacity-0",
+        )}
+        style={{ height: "var(--safe-top)" }}
+      />
+
       {/* Fundo que surge ao rolar — sólido o bastante para manter contraste sobre qualquer seção */}
       <div
         aria-hidden

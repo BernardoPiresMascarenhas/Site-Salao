@@ -18,6 +18,8 @@
 
   html {
     position: relative;
+    /* Visível só no overscroll / atrás das barras do Safari: escuro como a Hero e o rodapé */
+    background-color: theme("colors.cacau.950");
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
