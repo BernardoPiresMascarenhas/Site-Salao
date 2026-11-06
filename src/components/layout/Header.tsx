@@ -107,7 +107,13 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className="fixed inset-x-0 top-0 z-50 text-linho"
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 text-linho transition-[background-color] duration-700 ease-expo",
+        // Safari iOS 26 pinta a área da barra de status com a cor de fundo do próprio elemento fixo no topo.
+        // Com fundo transparente (cor só numa camada filha, translúcida e com blur), ele não encontra cor
+        // e a página rolando aparece acima do header. Por isso o header recebe a cor sólida ao rolar.
+        solid ? "bg-cacau-950" : "bg-transparent",
+      )}
       style={{ paddingTop: "var(--safe-top)" }}
     >
       <a
@@ -117,14 +123,6 @@ export function Header() {
         Pular para o conteúdo
       </a>
 
-      {/*
-        Safari iOS: a página continua sendo desenhada atrás da barra de status, acima do top:0 do header
-        fixo. Como o fundo do header é translúcido, com blur e numa camada filha, o Safari não consegue usá-lo
-        para pintar essa área, e as seções apareciam acima do header. Esta faixa opaca, só decorativa e sem
-        receber cliques, fica logo acima do header e cobre a região. Em navegadores que não desenham nada ali,
-        ela fica fora da tela e não tem efeito.
-      */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-full -z-10 h-[50vh] bg-cacau-950" />
       {/* Com safe-area-inset-top > 0 (paisagem / app instalado), a faixa da barra de status também fica opaca */}
       <div
         aria-hidden
