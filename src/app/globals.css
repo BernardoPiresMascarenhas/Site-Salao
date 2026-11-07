@@ -249,3 +249,34 @@ html.app-shell #scroll-root {
     scroll-behavior: smooth;
   }
 }
+
+/* ------------------------------------------------------------------------------------------------
+   Barra de rolagem principal (só o documento, fora do app-shell — no iPhone/iPad quem rola é
+   #scroll-root e o Safari iOS mantém a barra nativa). Apenas aparência: nada de overflow aqui.
+   - Chrome/Edge/Safari desktop: ::-webkit-scrollbar (8px, cantos arredondados, hover).
+   - Firefox: scrollbar-color/scrollbar-width. Ficam dentro do @supports porque, no Chrome 121+,
+     scrollbar-color no mesmo elemento anula os pseudo-elementos ::-webkit-scrollbar.
+------------------------------------------------------------------------------------------------- */
+html:not(.app-shell)::-webkit-scrollbar {
+  width: 8px;
+}
+html:not(.app-shell)::-webkit-scrollbar-track {
+  background-color: #2a2220;
+}
+html:not(.app-shell)::-webkit-scrollbar-thumb {
+  background-color: theme("colors.bronze.500");
+  border-radius: 9999px;
+  border: 1px solid #2a2220;
+}
+html:not(.app-shell)::-webkit-scrollbar-thumb:hover {
+  background-color: #c9a68f;
+}
+html:not(.app-shell)::-webkit-scrollbar-corner {
+  background-color: #2a2220;
+}
+@supports not selector(::-webkit-scrollbar) {
+  html:not(.app-shell) {
+    scrollbar-width: thin;
+    scrollbar-color: theme("colors.bronze.500") #2a2220;
+  }
+}
