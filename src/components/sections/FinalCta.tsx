@@ -16,7 +16,7 @@ export function FinalCta() {
   const reduce = useReducedMotionSafe();
   const { requestBooking } = useBooking();
   const container = useScrollContainer();
-  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({ container, layoutEffect: false, target: ref, offset: ["start end", "end start"] });
   const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1.3, 1]);
   const archWidth = useTransform(scrollYProgress, [0.05, 0.5], reduce ? ["100%", "100%"] : ["72%", "100%"]);
 

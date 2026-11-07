@@ -215,31 +215,9 @@
 }
 
 /* ------------------------------------------------------------------------------------------------
-   TEMPORÁRIO — variantes de teste do header no Safari iOS 26, ativadas por ?teste=...
-   Sem o parâmetro, nada aqui se aplica. Remover após a validação.
-------------------------------------------------------------------------------------------------- */
-/* G — sem o grão fixo em tela cheia (z-index 60, acima do header) */
-html[data-teste~="semgrao"] .grain::after,
-html[data-teste~="minimo"] .grain::after {
-  display: none;
-}
-/* A — sem backdrop-filter em nenhum elemento do header */
-html[data-teste~="semblur"] #site-header,
-html[data-teste~="semblur"] #site-header *,
-html[data-teste~="minimo"] #site-header,
-html[data-teste~="minimo"] #site-header * {
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-/* B — header mínimo: fundo sólido opaco no próprio elemento fixo, desde o topo da página */
-html[data-teste~="minimo"] #site-header {
-  background-color: theme("colors.cacau.950") !important;
-}
-
-/* ------------------------------------------------------------------------------------------------
-   TEMPORÁRIO — app-shell (rota /teste-scroll): o documento não rola; quem rola é #scroll-root.
-   Hipótese: sem rolagem do documento, o Safari iOS 26 não tem conteúdo para mostrar atrás da
-   barra de status e pinta a área com o fundo do body (escuro, igual ao header).
+   App-shell (só iPhone/iPad, classe aplicada pelo layout): o documento não rola; quem rola é
+   #scroll-root. Sem rolagem do documento, o Safari iOS 26 não mostra conteúdo atrás da barra de
+   status e pinta a área com o fundo do body (escuro, igual ao header). Ver src/lib/scrollContainer.tsx
 ------------------------------------------------------------------------------------------------- */
 html.app-shell,
 html.app-shell body {

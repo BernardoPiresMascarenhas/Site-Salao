@@ -18,7 +18,7 @@ export function Hero() {
   const reduce = useReducedMotionSafe();
   const { requestBooking } = useBooking();
   const container = useScrollContainer();
-  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start start", "end start"] });
+  const { scrollYProgress } = useScroll({ container, layoutEffect: false, target: ref, offset: ["start start", "end start"] });
   const photoY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "14%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "-18%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, reduce ? 1 : 0.15]);

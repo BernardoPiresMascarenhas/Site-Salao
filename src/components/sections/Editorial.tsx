@@ -12,7 +12,7 @@ function Marquee() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotionSafe();
   const container = useScrollContainer();
-  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({ container, layoutEffect: false, target: ref, offset: ["start end", "end start"] });
   const x = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "-30%"]);
   const words = [...MARQUEE, ...MARQUEE, ...MARQUEE];
 
@@ -42,7 +42,7 @@ export function Editorial() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotionSafe();
   const container = useScrollContainer();
-  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start start", "end end"] });
+  const { scrollYProgress } = useScroll({ container, layoutEffect: false, target: ref, offset: ["start start", "end end"] });
 
   const clip = useTransform(
     scrollYProgress,

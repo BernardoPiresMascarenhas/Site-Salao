@@ -34,7 +34,7 @@ export function Manifesto() {
   const textRef = useRef<HTMLHeadingElement>(null);
   const reduce = useReducedMotionSafe();
   const container = useScrollContainer();
-  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: textRef, offset: ["start 0.85", "end 0.5"] });
+  const { scrollYProgress } = useScroll({ container, layoutEffect: false, target: textRef, offset: ["start 0.85", "end 0.5"] });
   const total = STATEMENT.length;
 
   return (

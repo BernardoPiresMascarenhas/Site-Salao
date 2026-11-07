@@ -39,15 +39,15 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// TEMPORÁRIO — lê ?teste=a,b,c antes da pintura e marca <html data-teste="a b c">
-const TESTE_SCRIPT = `try{var t=new URLSearchParams(location.search).get("teste");if(t)document.documentElement.dataset.teste=t.split(/[ ,+]+/).join(" ")}catch(e){}`;
+// iPhone/iPad (inclusive iPadOS, que se identifica como Mac): ativa o app-shell antes da primeira pintura.
+// Corrige o conteúdo aparecendo atrás da barra de status no Safari iOS 26 — ver src/lib/scrollContainer.tsx
+const APP_SHELL_SCRIPT = `try{var n=navigator;if(/iP(hone|ad|od)/.test(n.userAgent)||(n.platform==="MacIntel"&&n.maxTouchPoints>1))document.documentElement.classList.add("app-shell")}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
-        {/* TEMPORÁRIO — testes do header no Safari iOS 26 (?teste=...). Remover após a validação. */}
-        <script dangerouslySetInnerHTML={{ __html: TESTE_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: APP_SHELL_SCRIPT }} />
       </head>
       <body className="grain">{children}</body>
     </html>

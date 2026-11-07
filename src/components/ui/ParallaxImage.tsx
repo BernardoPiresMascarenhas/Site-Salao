@@ -40,7 +40,7 @@ export function ParallaxImage({
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotionSafe();
   const container = useScrollContainer();
-  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({ container, layoutEffect: false, target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : [`-${strength}%`, `${strength}%`]);
 
   return (

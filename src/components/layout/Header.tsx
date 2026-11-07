@@ -19,7 +19,7 @@ function scrollToHash(hash: string, reduce: boolean | null) {
 
 export function Header() {
   const container = useScrollContainer();
-  const { scrollY } = useScroll({ container, layoutEffect: !container });
+  const { scrollY } = useScroll({ container, layoutEffect: false });
   const reduce = useReducedMotionSafe();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -113,9 +113,8 @@ export function Header() {
       id="site-header"
       className={cn(
         "fixed inset-x-0 top-0 z-50 text-linho transition-[background-color] duration-700 ease-expo",
-        // Safari iOS 26 pinta a área da barra de status com a cor de fundo do próprio elemento fixo no topo.
-        // Com fundo transparente (cor só numa camada filha, translúcida e com blur), ele não encontra cor
-        // e a página rolando aparece acima do header. Por isso o header recebe a cor sólida ao rolar.
+        // Fundo sólido no próprio header ao rolar (mantido como na versão validada no iPhone;
+        // a correção da barra de status do Safari iOS 26 é o app-shell — ver @/lib/scrollContainer).
         solid ? "bg-cacau-950" : "bg-transparent",
       )}
       style={{ paddingTop: "var(--safe-top)" }}
