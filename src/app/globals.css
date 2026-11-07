@@ -213,3 +213,25 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ------------------------------------------------------------------------------------------------
+   TEMPORÁRIO — variantes de teste do header no Safari iOS 26, ativadas por ?teste=...
+   Sem o parâmetro, nada aqui se aplica. Remover após a validação.
+------------------------------------------------------------------------------------------------- */
+/* G — sem o grão fixo em tela cheia (z-index 60, acima do header) */
+html[data-teste~="semgrao"] .grain::after,
+html[data-teste~="minimo"] .grain::after {
+  display: none;
+}
+/* A — sem backdrop-filter em nenhum elemento do header */
+html[data-teste~="semblur"] #site-header,
+html[data-teste~="semblur"] #site-header *,
+html[data-teste~="minimo"] #site-header,
+html[data-teste~="minimo"] #site-header * {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+/* B — header mínimo: fundo sólido opaco no próprio elemento fixo, desde o topo da página */
+html[data-teste~="minimo"] #site-header {
+  background-color: theme("colors.cacau.950") !important;
+}

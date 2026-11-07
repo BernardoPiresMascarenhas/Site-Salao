@@ -107,6 +107,7 @@ export function Header() {
   return (
     <header
       ref={headerRef}
+      id="site-header"
       className={cn(
         "fixed inset-x-0 top-0 z-50 text-linho transition-[background-color] duration-700 ease-expo",
         // Safari iOS 26 pinta a área da barra de status com a cor de fundo do próprio elemento fixo no topo.

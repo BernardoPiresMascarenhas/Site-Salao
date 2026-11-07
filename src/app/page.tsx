@@ -11,6 +11,7 @@ import { Team } from "@/components/sections/Team";
 import { Booking } from "@/components/sections/Booking";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { SafariDiag } from "@/components/dev/SafariDiag";
 
 export default function Home() {
   return (
@@ -29,6 +30,8 @@ export default function Home() {
           <FinalCta />
         </main>
         <Footer />
+        {/* TEMPORÁRIO — ?teste=diag */}
+        <SafariDiag />
     </Providers>
   );
 }

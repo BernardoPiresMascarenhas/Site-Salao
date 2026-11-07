@@ -39,9 +39,16 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
+// TEMPORÁRIO — lê ?teste=a,b,c antes da pintura e marca <html data-teste="a b c">
+const TESTE_SCRIPT = `try{var t=new URLSearchParams(location.search).get("teste");if(t)document.documentElement.dataset.teste=t.split(/[ ,+]+/).join(" ")}catch(e){}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${display.variable} ${sans.variable}`}>
+    <html lang="pt-BR" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        {/* TEMPORÁRIO — testes do header no Safari iOS 26 (?teste=...). Remover após a validação. */}
+        <script dangerouslySetInnerHTML={{ __html: TESTE_SCRIPT }} />
+      </head>
       <body className="grain">{children}</body>
     </html>
   );
