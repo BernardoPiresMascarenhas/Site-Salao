@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { getScrollRoot, useScrollContainer } from "@/lib/scrollContainer";
 import { useEffect, useRef, useState } from "react";
 import type { GalleryItem } from "@/data/gallery";
 import { galleryFilters } from "@/data/gallery";
@@ -20,6 +21,7 @@ const categoryLabel = (id: string) => galleryFilters.find((f) => f.id === id)?.l
 
 export function Lightbox({ items, index, onClose, onIndexChange }: Props) {
   const reduce = useReducedMotionSafe();
+  const container = useScrollContainer();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const [direction, setDirection] = useState(0);
@@ -43,7 +45,8 @@ export function Lightbox({ items, index, onClose, onIndexChange }: Props) {
   useEffect(() => {
     if (!open) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
-    const root = document.documentElement;
+    // trava o elemento que rola: documento (padrão) ou contêiner do app-shell
+    const root = getScrollRoot(container);
     const prevOverflow = root.style.overflow;
     root.style.overflow = "hidden";
     closeRef.current?.focus();
@@ -78,7 +81,7 @@ export function Lightbox({ items, index, onClose, onIndexChange }: Props) {
       previouslyFocused?.focus({ preventScroll: true });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, container]);
 
   return (
     <AnimatePresence>

@@ -10,22 +10,8 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    id: "corte",
-    number: "01",
-    name: "Corte & Styling",
-    short: "Linhas desenhadas para você.",
-    description:
-      "Cortes pensados a partir do formato do rosto, da textura dos fios e da rotina que você vive. Nada de fórmula: cada linha tem intenção.",
-    highlights: ["Consultoria de visagismo", "Corte personalizado", "Styling"],
-    image: {
-      src: "/images/service-corte.jpg",
-      alt: "Retrato de mulher com corte chanel loiro e repartido ao meio, de gola alta preta sobre fundo escuro",
-      position: "50% 25%",
-    },
-  },
-  {
     id: "coloracao",
-    number: "02",
+    number: "01",
     name: "Coloração & Mechas",
     short: "Cor construída para a sua pele.",
     description:
@@ -35,6 +21,20 @@ export const services: Service[] = [
       src: "/images/service-coloracao.jpg",
       alt: "Modelo com cabelos longos em ondas e mechas loiras iluminadas, vestindo bege acetinado",
       position: "45% 30%",
+    },
+  },
+  {
+    id: "corte",
+    number: "02",
+    name: "Corte & Styling",
+    short: "Linhas desenhadas para você.",
+    description:
+      "Cortes pensados a partir do formato do rosto, da textura dos fios e da rotina que você vive. Nada de fórmula: cada linha tem intenção.",
+    highlights: ["Consultoria de visagismo", "Corte personalizado", "Styling"],
+    image: {
+      src: "/images/service-corte.jpg",
+      alt: "Retrato de mulher com corte chanel loiro e repartido ao meio, de gola alta preta sobre fundo escuro",
+      position: "50% 25%",
     },
   },
   {

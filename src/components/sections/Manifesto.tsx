@@ -3,18 +3,15 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { useScrollContainer } from "@/lib/scrollContainer";
 import { useRef } from "react";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { Reveal } from "@/components/ui/Reveal";
 
-type Token = string | { img: string; alt: string };
-
-const STATEMENT: Token[] = [
+const STATEMENT = [
   "Mais", "do", "que", "transformar", "cabelos,",
-  { img: "/images/manifesto-detail.jpg", alt: "" },
   "criamos", "experiências", "que", "valorizam",
-  { img: "/images/service-manicure.jpg", alt: "" },
   "quem", "você", "já", "é.",
 ];
 
@@ -36,7 +33,8 @@ function Word({ children, progress, range }: { children: React.ReactNode; progre
 export function Manifesto() {
   const textRef = useRef<HTMLHeadingElement>(null);
   const reduce = useReducedMotionSafe();
-  const { scrollYProgress } = useScroll({ target: textRef, offset: ["start 0.85", "end 0.5"] });
+  const container = useScrollContainer();
+  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: textRef, offset: ["start 0.85", "end 0.5"] });
   const total = STATEMENT.length;
 
   return (
@@ -54,23 +52,11 @@ export function Manifesto() {
         >
           {STATEMENT.map((token, i) => {
             const range: [number, number] = [i / total, Math.min(1, (i + 2) / total)];
-            if (typeof token === "string") {
-              const isAccent = token === "experiências";
-              const content = isAccent ? <em className="italic text-bronze-600">{token}</em> : token;
-              return (
-                <span key={i}>
-                  {reduce ? <span className="inline-block indent-0">{content}</span> : <Word progress={scrollYProgress} range={range}>{content}</Word>}{" "}
-                </span>
-              );
-            }
+            const isAccent = token === "experiências";
+            const content = isAccent ? <em className="italic text-bronze-600">{token}</em> : token;
             return (
               <span key={i}>
-                <span
-                  aria-hidden
-                  className="relative mx-[0.04em] inline-block h-[0.72em] indent-0 w-[1.5em] translate-y-[0.06em] overflow-hidden rounded-full align-baseline"
-                >
-                  <Image src={token.img} alt={token.alt} fill sizes="160px" className="object-cover" />
-                </span>{" "}
+                {reduce ? <span className="inline-block indent-0">{content}</span> : <Word progress={scrollYProgress} range={range}>{content}</Word>}{" "}
               </span>
             );
           })}

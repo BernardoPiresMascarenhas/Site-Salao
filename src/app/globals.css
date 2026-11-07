@@ -235,3 +235,39 @@ html[data-teste~="minimo"] #site-header * {
 html[data-teste~="minimo"] #site-header {
   background-color: theme("colors.cacau.950") !important;
 }
+
+/* ------------------------------------------------------------------------------------------------
+   TEMPORÁRIO — app-shell (rota /teste-scroll): o documento não rola; quem rola é #scroll-root.
+   Hipótese: sem rolagem do documento, o Safari iOS 26 não tem conteúdo para mostrar atrás da
+   barra de status e pinta a área com o fundo do body (escuro, igual ao header).
+------------------------------------------------------------------------------------------------- */
+html.app-shell,
+html.app-shell body {
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+html.app-shell {
+  scroll-padding-top: 0;
+}
+html.app-shell body {
+  background-color: theme("colors.cacau.950");
+}
+html.app-shell #scroll-root {
+  position: relative; /* referência para os cálculos de useScroll({ container }) */
+  height: 100%;
+  height: 100dvh;
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  /* fundo padrão das seções (antes vinha do body) */
+  background-color: theme("colors.linho");
+  scroll-padding-top: calc(var(--header-h) + var(--safe-top));
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.app-shell #scroll-root {
+    scroll-behavior: smooth;
+  }
+}

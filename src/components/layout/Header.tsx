@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { getScrollRoot, useScrollContainer } from "@/lib/scrollContainer";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BOOKING_HREF, nav, site } from "@/data/site";
 import { ease } from "@/lib/motion";
@@ -17,7 +18,8 @@ function scrollToHash(hash: string, reduce: boolean | null) {
 }
 
 export function Header() {
-  const { scrollY } = useScroll();
+  const container = useScrollContainer();
+  const { scrollY } = useScroll({ container, layoutEffect: !container });
   const reduce = useReducedMotionSafe();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -47,7 +49,8 @@ export function Header() {
   // Menu mobile: trava a rolagem, isola o conteúdo, fecha com Escape e mantém o foco dentro do header
   useEffect(() => {
     if (!open) return;
-    const root = document.documentElement;
+    // trava o elemento que rola: documento (padrão) ou contêiner do app-shell
+    const root = getScrollRoot(container);
     const prevOverflow = root.style.overflow;
     root.style.overflow = "hidden";
     const outside = [document.getElementById("conteudo"), document.querySelector("footer")];
@@ -78,7 +81,7 @@ export function Header() {
       outside.forEach((el) => el?.removeAttribute("inert"));
       window.removeEventListener("keydown", onKey);
     };
-  }, [open]);
+  }, [open, container]);
 
   // Fecha o menu se a tela crescer para o layout desktop
   useEffect(() => {

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { useScrollContainer } from "@/lib/scrollContainer";
 import { useRef } from "react";
 import { BOOKING_HREF } from "@/data/site";
 import { RevealLines } from "@/components/ui/RevealLines";
@@ -14,7 +15,8 @@ export function FinalCta() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotionSafe();
   const { requestBooking } = useBooking();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const container = useScrollContainer();
+  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start end", "end start"] });
   const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [1.3, 1]);
   const archWidth = useTransform(scrollYProgress, [0.05, 0.5], reduce ? ["100%", "100%"] : ["72%", "100%"]);
 

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { useScrollContainer } from "@/lib/scrollContainer";
 import { useRef } from "react";
 import { cn } from "@/lib/cn";
 import { ease } from "@/lib/motion";
@@ -38,7 +39,8 @@ export function ParallaxImage({
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotionSafe();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const container = useScrollContainer();
+  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : [`-${strength}%`, `${strength}%`]);
 
   return (

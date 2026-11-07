@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { useScrollContainer } from "@/lib/scrollContainer";
 import { useRef } from "react";
 import { BOOKING_HREF, site } from "@/data/site";
 import { ease } from "@/lib/motion";
@@ -16,7 +17,8 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotionSafe();
   const { requestBooking } = useBooking();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const container = useScrollContainer();
+  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start start", "end start"] });
   const photoY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "14%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "-18%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, reduce ? 1 : 0.15]);

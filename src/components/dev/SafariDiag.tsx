@@ -31,6 +31,7 @@ export function SafariDiag() {
     let raf = 0;
     const update = () => {
       raf = 0;
+      const scroller = document.getElementById("scroll-root");
       const x = innerWidth / 2;
       const stack = document.elementsFromPoint(x, 4);
       let pinned: Element | null = null;
@@ -47,9 +48,9 @@ export function SafariDiag() {
       const meta = document.querySelector('meta[name="viewport"]')?.getAttribute("content") ?? "";
       const vv = window.visualViewport;
       setLines([
-        `build de teste v3 · teste: ${document.documentElement.dataset.teste} · ${location.pathname}`,
+        `build de teste v4 · teste: ${document.documentElement.dataset.teste} · ${location.pathname}`,
         `viewport: ${meta.includes("cover") ? "cover" : "SEM cover"} · safe-top: ${getComputedStyle(probe).paddingTop}`,
-        `scrollY ${Math.round(scrollY)} · innerH ${innerHeight} · vv ${vv ? `${Math.round(vv.height)} off ${Math.round(vv.offsetTop)}` : "-"}`,
+        `${scroller ? `app-shell: rola #scroll-root (${Math.round(scroller.scrollTop)})` : `rola o documento (scrollY ${Math.round(scrollY)})`} · innerH ${innerHeight} · vv ${vv ? `${Math.round(vv.height)} off ${Math.round(vv.offsetTop)}` : "-"}`,
         `topo (centro, y=4): ${stack.slice(0, 3).map(describe).join(" > ") || "nada"}`,
         pinned && ps && r
           ? `fixo/sticky: ${describe(pinned)} · ${ps.position} top ${Math.round(r.top)} w ${Math.round((r.width / innerWidth) * 100)}% h ${Math.round(r.height)}`
@@ -72,11 +73,12 @@ export function SafariDiag() {
     };
     const vv = window.visualViewport;
     update();
-    addEventListener("scroll", schedule, { passive: true });
+    // captura: também recebe a rolagem do contêiner do app-shell
+    document.addEventListener("scroll", schedule, { capture: true, passive: true });
     addEventListener("resize", schedule);
     vv?.addEventListener("resize", schedule);
     return () => {
-      removeEventListener("scroll", schedule);
+      document.removeEventListener("scroll", schedule, { capture: true });
       removeEventListener("resize", schedule);
       vv?.removeEventListener("resize", schedule);
       probe.remove();

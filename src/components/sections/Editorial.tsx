@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { useScrollContainer } from "@/lib/scrollContainer";
 import { useRef } from "react";
 
 const MARQUEE = ["Corte", "Cor", "Cuidado", "Essência", "Atelier"];
@@ -10,7 +11,8 @@ const MARQUEE = ["Corte", "Cor", "Cuidado", "Essência", "Atelier"];
 function Marquee() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotionSafe();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const container = useScrollContainer();
+  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start end", "end start"] });
   const x = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "-30%"]);
   const words = [...MARQUEE, ...MARQUEE, ...MARQUEE];
 
@@ -39,7 +41,8 @@ function Marquee() {
 export function Editorial() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotionSafe();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const container = useScrollContainer();
+  const { scrollYProgress } = useScroll({ container, layoutEffect: !container, target: ref, offset: ["start start", "end end"] });
 
   const clip = useTransform(
     scrollYProgress,
